@@ -79,9 +79,14 @@ class Interface {
         }
 
         void run() {
-            cout << "What color do you want to be (B or W)?" << endl;
             char color;
-            cin >> color;
+            do {
+                cout << "What color do you want to be (B or W)?: ";
+                cin >> color;
+
+                if (!(color==BLACK || color==WHITE))
+                    cout << "Invalid choice. Please try again." << endl;
+            } while(!(color==BLACK || color==WHITE));
 
             Board board = Board();
             Player player(color), computer(color=='W' ? 'B': 'W');
