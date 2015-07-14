@@ -25,16 +25,20 @@ namespace checkers {
         try {
             validateMove(origin, dest);
 
-            std::cout << "MAKING MOVE FROM " << origin.row << "," << origin.col << " TO "<< dest.row << "," << dest.col << std::endl;
+            std::cout << "**DEBUG: MAKING MOVE FROM " << origin.row << "," << origin.col << " TO "<< dest.row << "," << dest.col << " PLAYER: " << currentPlayer->getColor() << "**" << std::endl;
             if (gameboard->spotOccupied(dest.row, dest.col)) {
                 currentPlayer->incrementPointCounter();
                 gameboard->removePiece(dest.row, dest.col);
-                if (currentPlayer->getColor() == BLACK)
-                    gameboard->placePiece(currentPlayer->getColor(), dest.row-1, dest.col+moveGoesRight);
-                else if (currentPlayer->getColor() == WHITE)
+                if (currentPlayer->getColor() == BLACK) {
+                    gameboard->removePiece(dest.row-1, dest.col+moveGoesRight);
+                    gameboard->placePiece(currentPlayer->getColor(), dest.row-1, dest.col+moveGoesRight); //TODO
+                } else if (currentPlayer->getColor() == WHITE) {
+                    gameboard->removePiece(dest.row+1, dest.col+moveGoesRight);
                     gameboard->placePiece(currentPlayer->getColor(), dest.row+1, dest.col+moveGoesRight);
+                }
+            } else {
+                gameboard->placePiece(currentPlayer->getColor(), dest.row, dest.col);
             }
-            gameboard->placePiece(currentPlayer->getColor(), dest.row, dest.col);
             gameboard->removePiece(origin.row, origin.col);
             switchTurns();
         } catch(const InvalidMoveException& e) {
@@ -53,7 +57,7 @@ namespace checkers {
 
     bool Logic::moveReachable(const Move& origin, const Move& destination) {
         //TODO: Can reach farther if eating pieces
-        return (destination.row == origin.row+1 || destination.row == origin.row-1) && (destination.col == origin.row+1 || destination.row == origin.row-1);
+        return (destination.row == origin.row+1 || destination.row == origin.row-1) && (destination.col == origin.col+1 || destination.col == origin.col-1);
     }
 
     void Logic::validateMove(const Move& origin, const Move& destination) const {

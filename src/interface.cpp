@@ -102,6 +102,7 @@ class Interface {
                 logic.makeMove(getMove(logic.getCurrentPlayerColor()));
                 cout << endl;
             }
+            cout << "GAME OVER" << endl; //TODO victory message
         }
 };
 
