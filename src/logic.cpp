@@ -17,15 +17,31 @@ namespace checkers {
     }
     
     void Logic::makeMove(Pair<Move, Move> origin_destination_pair) {
+        //TODO EATING PIECES
+        const Move& origin = origin_destination_pair.first;
+        const Move& dest = origin_destination_pair.second;
+        unsigned char moveGoesRight = (origin.col<dest.col) ? 1 : -1; //-1 if goes left, 1 if right
+        
         try {
-            std::cout << "MAKING MOVE FROM " << origin_destination_pair.first.row << "," << origin_destination_pair.first.col << " TO "<< origin_destination_pair.second.row << "," << origin_destination_pair.second.col << std::endl;
-            gameboard->placePiece(currentPlayer->getColor(), origin_destination_pair.second.row, origin_destination_pair.second.col);
-            gameboard->removePiece(origin_destination_pair.first.row, origin_destination_pair.first.col);
+            if (!moveIsLegal(origin, dest))
+                throw InvalidMoveException("Error occurred making the move. Please try again.");
+
+            std::cout << "MAKING MOVE FROM " << origin.row << "," << origin.col << " TO "<< dest.row << "," << dest.col << std::endl;
+            if (gameboard->spotOccupied(dest.row, dest.col)) {
+                currentPlayer->incrementPointCounter();
+                gameboard->removePiece(dest.row, dest.col);
+                if (currentPlayer->getColor() == BLACK)
+                    gameboard->placePiece(currentPlayer->getColor(), dest.row-1, dest.col+moveGoesRight);
+                else if (currentPlayer->getColor() == WHITE)
+                    gameboard->placePiece(currentPlayer->getColor(), dest.row+1, dest.col+moveGoesRight);
+            }
+            gameboard->placePiece(currentPlayer->getColor(), dest.row, dest.col);
+            gameboard->removePiece(origin.row, origin.col);
+            switchTurns();
         } catch(const InvalidMoveException& e) {
             std::cout << e.what() << std::endl;
         }
 
-        switchTurns();
     }
 
     bool Logic::moveInBounds(const Move& move) const {
@@ -38,7 +54,8 @@ namespace checkers {
     }
 
     bool Logic::moveIsLegal(const Move& origin, const Move& destination) const {
-        return moveInBounds(destination) && moveReachable(origin, destination) && !gameboard->spotOccupied(destination.row, destination.col);
+        //TODO fix logic
+        return gameboard->spotOccupied(origin.row, origin.col) && moveInBounds(destination) && moveReachable(origin, destination) && !gameboard->spotOccupied(destination.row, destination.col);
     }
 
     char Logic::getCurrentPlayerColor() const {

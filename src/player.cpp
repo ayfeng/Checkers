@@ -19,11 +19,15 @@ namespace checkers {
         cout << "The " << (color==BLACK?"BLACK":"WHITE") << " player has captured " << getPoints() << " pieces." << endl;
     }
 
-    char Player::getColor() {
+    char Player::getColor() const {
         return color;
     }
 
-    int Player::getPoints() {
+    int Player::getPoints() const {
         return points;
+    }
+
+    void Player::incrementPointCounter() {
+        points += 1;
     }
 }

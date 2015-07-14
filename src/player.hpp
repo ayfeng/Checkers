@@ -9,8 +9,9 @@ namespace checkers {
         public:
             Player(char color);
             void printScore();
-            char getColor();
-            int getPoints();
+            char getColor() const;
+            int getPoints() const;
+            void incrementPointCounter();
         private:
             char color;
             int points;

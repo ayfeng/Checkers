@@ -22,6 +22,7 @@ using std::min;
 class Interface {
     public:
         Pair<Move, Move> getMove(char color) {
+            //TODO BOUNDS CHCEKING
             int row, col, dest;
             cout << "SELECTING PIECE..." << endl;
             cout << "ENTER ROW: ";
@@ -59,6 +60,7 @@ class Interface {
                 player.printScore();
                 computer.printScore();
                 board.displayBoard();
+                cout << (logic.getCurrentPlayerColor()==BLACK?"BLACK":"WHITE") << " turn." << endl;
 
                 logic.makeMove(getMove(logic.getCurrentPlayerColor()));
                 cout << endl;
