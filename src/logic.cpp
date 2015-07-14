@@ -43,18 +43,18 @@ namespace checkers {
 
     }
 
-    bool Logic::moveInBounds(const Move& move) const {
+    bool Logic::moveInBounds(const Move& move) {
         return (0 <= move.row && move.row < BOARD_SIZE) && (0 <= move.col && move.col < BOARD_SIZE);
     }
 
-    bool Logic::moveReachable(const Move& origin, const Move& destination) const {
+    bool Logic::moveReachable(const Move& origin, const Move& destination) {
         //TODO: Can reach farther if eating pieces
         return (destination.row == origin.row+1 || destination.row == origin.row-1) && (destination.col == origin.row+1 || destination.row == origin.row-1);
     }
 
     void Logic::validateMove(const Move& origin, const Move& destination) const {
         //TODO fix logic
-        if (!gameboard->getPieceAt(origin.row, origin.col)==getCurrentPlayerColor())
+        if (!(gameboard->getPieceAt(origin.row, origin.col)==getCurrentPlayerColor()))
             throw InvalidMoveException("You must have a piece in the selected origin location to move from there");
         if (!moveInBounds(destination))
             throw InvalidMoveException("Move goes out of bounds");

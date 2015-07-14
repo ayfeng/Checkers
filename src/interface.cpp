@@ -31,14 +31,14 @@ class Interface {
             cout << "ENTER COL: ";
             cin >> col;
 
-            
+            Move origin = Move();
+            origin.row = row;
+            origin.col = col;
+
             cout << "SELECT DESTINATION..." << endl;
             cout << "ENTER COLUMN TO MOVE THE PIECE TO: ";
             cin >> dest;
 
-            Move origin = Move();
-            origin.row = row;
-            origin.col = col;
 
             Move destination = Move();
             destination.row = (color==WHITE ? min(row+1, BOARD_SIZE) : max(row-1, 0)); //TODO better boundary checking

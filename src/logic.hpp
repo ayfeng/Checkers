@@ -13,11 +13,11 @@ namespace checkers {
             bool gameOver();
             void makeMove(Pair<Move, Move> origin_destination_pair);
             char getCurrentPlayerColor() const;
+            static bool moveInBounds(const Move& move);
+            static bool moveReachable(const Move& origin, const Move& destination);
         private:
             void switchTurns();
-            bool moveInBounds(const Move& move) const;
             void validateMove(const Move& origin, const Move& destination) const;
-            bool moveReachable(const Move& origin, const Move& destination) const;
             Player* playerOne;
             Player* playerTwo;
             Player* currentPlayer;
