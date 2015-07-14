@@ -7,8 +7,6 @@
 
 #include <iostream>
 
-#define BOARD_SIZE 6
-
 namespace checkers {
     Logic::Logic(Player* p1, Player* p2, Board* board): playerOne(p1), playerTwo(p2), gameboard(board) { 
         currentPlayer = playerOne; //TODO: implement randomness or choose
@@ -31,7 +29,16 @@ namespace checkers {
     }
 
     bool Logic::moveInBounds(const Move& move) const {
-        return (0 <= move.row && move.row < 6) && (0 <= move.col && move.col < 6);
+        return (0 <= move.row && move.row < BOARD_SIZE) && (0 <= move.col && move.col < BOARD_SIZE);
+    }
+
+    bool Logic::moveReachable(const Move& origin, const Move& destination) const {
+        //TODO: Can reach farther if eating pieces
+        return (destination.row == origin.row+1 || destination.row == origin.row-1) && (destination.col == origin.row+1 || destination.row == origin.row-1);
+    }
+
+    bool Logic::moveIsLegal(const Move& origin, const Move& destination) const {
+        return moveInBounds(destination) && moveReachable(origin, destination) && !gameboard->spotOccupied(destination.row, destination.col);
     }
 
     char Logic::getCurrentPlayerColor() const {

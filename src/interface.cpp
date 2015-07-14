@@ -10,10 +10,6 @@
 #include "move.hpp"
 #include "pair.hpp"
 
-#define BOARD_SIZE 6
-#define BLACK 'B'
-#define WHITE 'W'
-
 using namespace checkers;
 
 using std::cout;
@@ -40,12 +36,12 @@ class Interface {
             cin >> dest;
 
             Move origin = Move();
-            origin.row = row+1;
-            origin.col = col+1;
+            origin.row = row;
+            origin.col = col;
 
             Move destination = Move();
-            origin.row = (color==WHITE ? max(row+1, BOARD_SIZE) : min(row-1, 0)); //TODO better boundary checking
-            origin.col = dest;
+            destination.row = (color==WHITE ? min(row+1, BOARD_SIZE) : max(row-1, 0)); //TODO better boundary checking
+            destination.col = dest;
             return Pair<Move, Move>(origin, destination);
         }
 

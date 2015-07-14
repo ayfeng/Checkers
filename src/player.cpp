@@ -8,7 +8,6 @@ using std::endl;
 
 #define BLACK 'B'
 #define WHITE 'W'
-#define BOARD_SIZE 6
 
 namespace checkers {
     Player::Player(char color) {

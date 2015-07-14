@@ -16,6 +16,8 @@ namespace checkers {
         private:
             void switchTurns();
             bool moveInBounds(const Move& move) const;
+            bool moveIsLegal(const Move& origin, const Move& destination) const;
+            bool moveReachable(const Move& origin, const Move& destination) const;
             Player* playerOne;
             Player* playerTwo;
             Player* currentPlayer;
