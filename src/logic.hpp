@@ -12,9 +12,10 @@ namespace checkers {
             bool gameOver();
             void makeMove(Move move);
         private:
+            void switchTurns();
             Player* playerOne;
             Player* playerTwo;
-            Player** currentPlayer;
+            Player* currentPlayer;
             Board* gameboard;
     };
 }

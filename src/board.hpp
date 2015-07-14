@@ -7,7 +7,6 @@
 #define WHITE 'W'
 
 namespace checkers {
-    class InvalidMoveException {};
 
     class Board {
         public:

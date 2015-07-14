@@ -48,6 +48,7 @@ class Interface {
                 board.displayBoard();
 
                 logic.makeMove(getMove());
+                cout << endl;
             }
         }
 };

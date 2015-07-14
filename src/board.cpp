@@ -1,4 +1,5 @@
 #include "board.hpp"
+#include "exceptions.hpp"
 #include <iostream>
 
 using std::cout;
@@ -14,7 +15,11 @@ namespace checkers {
     }
 
     void Board::placePiece(char player, int x, int y) {
-        board[x][y] = player;
+        if (board[x][y] != EMPTY) {
+            throw InvalidMoveException("There is already a piece there!");
+        } else {
+            board[x][y] = player;
+        }
     }
 
     void Board::removePiece(int x, int y) {
