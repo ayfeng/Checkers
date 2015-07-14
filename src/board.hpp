@@ -14,6 +14,7 @@ namespace checkers {
             void placePiece(char player, int x, int y); //throws InvalidMoveException if piece exists
             void removePiece(int x, int y); //throws InvalidMoveException if no piece 
             void displayBoard(); //print board
+            char getPieceAt(int x, int y);
             bool spotOccupied(int x, int y);
         private:
             char board[BOARD_SIZE][BOARD_SIZE];

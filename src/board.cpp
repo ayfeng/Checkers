@@ -33,7 +33,11 @@ namespace checkers {
     }
 
     bool Board::spotOccupied(int x, int y) {
-        return board[x][y] != EMPTY;
+        return getPieceAt(x, y) != EMPTY;
+    }
+
+    char Board::getPieceAt(int x, int y) {
+        return board[x][y];
     }
 
     void Board::removePiece(int x, int y) {

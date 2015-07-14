@@ -23,8 +23,7 @@ namespace checkers {
         unsigned char moveGoesRight = (origin.col<dest.col) ? 1 : -1; //-1 if goes left, 1 if right
         
         try {
-            if (!moveIsLegal(origin, dest))
-                throw InvalidMoveException("Error occurred making the move. Please try again.");
+            validateMove(origin, dest);
 
             std::cout << "MAKING MOVE FROM " << origin.row << "," << origin.col << " TO "<< dest.row << "," << dest.col << std::endl;
             if (gameboard->spotOccupied(dest.row, dest.col)) {
@@ -53,9 +52,14 @@ namespace checkers {
         return (destination.row == origin.row+1 || destination.row == origin.row-1) && (destination.col == origin.row+1 || destination.row == origin.row-1);
     }
 
-    bool Logic::moveIsLegal(const Move& origin, const Move& destination) const {
+    void Logic::validateMove(const Move& origin, const Move& destination) const {
         //TODO fix logic
-        return gameboard->spotOccupied(origin.row, origin.col) && moveInBounds(destination) && moveReachable(origin, destination) && !gameboard->spotOccupied(destination.row, destination.col);
+        if (!gameboard->getPieceAt(origin.row, origin.col)==getCurrentPlayerColor())
+            throw InvalidMoveException("You must have a piece in the selected origin location to move from there");
+        if (!moveInBounds(destination))
+            throw InvalidMoveException("Move goes out of bounds");
+        if (!moveReachable(origin, destination))
+            throw InvalidMoveException("Selected destination is not reachable from your selected origin. Pieces can only move one space diagonally forward or eat an enemy piece.");
     }
 
     char Logic::getCurrentPlayerColor() const {
