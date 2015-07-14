@@ -23,7 +23,7 @@ namespace checkers {
     }
 
     void Board::removePiece(int x, int y) {
-
+        board[x][y] = EMPTY;
     }
 
     void Board::displayBoard() {

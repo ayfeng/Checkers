@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <cmath>
 
 #include "player.hpp"
 #include "ai.hpp"
@@ -7,7 +8,11 @@
 #include "piece.hpp"
 #include "logic.hpp"
 #include "move.hpp"
+#include "pair.hpp"
 
+#define BOARD_SIZE 6
+#define BLACK 'B'
+#define WHITE 'W'
 
 using namespace checkers;
 
@@ -15,21 +20,33 @@ using std::cout;
 using std::cin;
 using std::endl;
 using std::string;
+using std::max;
+using std::min;
 
 class Interface {
     public:
-        Move getMove() {
-            int row, col;
+        Pair<Move, Move> getMove(char color) {
+            int row, col, dest;
+            cout << "SELECTING PIECE..." << endl;
             cout << "ENTER ROW: ";
             cin >> row;
 
             cout << "ENTER COL: ";
             cin >> col;
 
-            Move result = Move();
-            result.row = row;
-            result.col = col;
-            return result;
+            
+            cout << "SELECT DESTINATION..." << endl;
+            cout << "ENTER COLUMN TO MOVE THE PIECE TO: ";
+            cin >> dest;
+
+            Move origin = Move();
+            origin.row = row+1;
+            origin.col = col+1;
+
+            Move destination = Move();
+            origin.row = (color==WHITE ? max(row+1, BOARD_SIZE) : min(row-1, 0)); //TODO better boundary checking
+            origin.col = dest;
+            return Pair<Move, Move>(origin, destination);
         }
 
         void run() {
@@ -47,7 +64,7 @@ class Interface {
                 computer.printScore();
                 board.displayBoard();
 
-                logic.makeMove(getMove());
+                logic.makeMove(getMove(logic.getCurrentPlayerColor()));
                 cout << endl;
             }
         }
