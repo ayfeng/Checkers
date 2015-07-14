@@ -14,6 +14,7 @@ namespace checkers {
             void makeMove(Pair<Move, Move> origin_destination_pair);
             char getCurrentPlayerColor() const;
             static bool moveInBounds(const Move& move);
+            static bool numberInBounds(int n);
             static bool moveReachable(const Move& origin, const Move& destination);
         private:
             void switchTurns();

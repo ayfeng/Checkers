@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <cmath>
+#include <limits>
 
 #include "player.hpp"
 #include "ai.hpp"
@@ -24,21 +25,52 @@ class Interface {
         Pair<Move, Move> getMove(char color) {
             //TODO BOUNDS CHCEKING
             int row, col, dest;
-            cout << "SELECTING PIECE..." << endl;
-            cout << "ENTER ROW: ";
-            cin >> row;
 
-            cout << "ENTER COL: ";
-            cin >> col;
+            cout << "===SELECTING A PIECE TO MOVE===" << endl;
+            do {
+                cout << "ENTER ROW: ";
+                while(!(cin >> row)) {
+                    cout << "INCORRECT INPUT. PLEASE TRY AGAIN." << endl;
+                    cin.clear();
+                    cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                    cout << "ENTER ROW: ";
+                }
+
+                if (!Logic::numberInBounds(row))
+                    cout << "OUT OF BOUNDS. TRY AGAIN." << endl;
+            } while(!Logic::numberInBounds(row));
+
+            do {
+                cout << "ENTER COL: ";
+                while(!(cin >> col)) {
+                    cout << "INCORRECT INPUT. PLEASE TRY AGAIN." << endl;
+                    cin.clear();
+                    cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                    cout << "ENTER COL: ";
+                }
+
+                if (!Logic::numberInBounds(col))
+                    cout << "OUT OF BOUNDS. TRY AGAIN." << endl;
+            } while(!Logic::numberInBounds(col));
 
             Move origin = Move();
             origin.row = row;
             origin.col = col;
 
-            cout << "SELECT DESTINATION..." << endl;
-            cout << "ENTER COLUMN TO MOVE THE PIECE TO: ";
-            cin >> dest;
+            cout << "===SELECTING DESTINATION===" << endl;
 
+            do {
+                cout << "ENTER COLUMN TO MOVE THE PIECE TO: ";
+                while(!(cin >> dest)) {
+                    cout << "INCORRECT INPUT. PLEASE TRY AGAIN." << endl;
+                    cin.clear();
+                    cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                    cout << "ENTER COLUMN TO MOVE THE PIECE TO: ";
+                }
+
+                if (!Logic::numberInBounds(dest))
+                    cout << "OUT OF BOUNDS. TRY AGAIN." << endl;
+            } while(!Logic::numberInBounds(dest));
 
             Move destination = Move();
             destination.row = (color==WHITE ? min(row+1, BOARD_SIZE) : max(row-1, 0)); //TODO better boundary checking

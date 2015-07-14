@@ -38,13 +38,17 @@ namespace checkers {
             gameboard->removePiece(origin.row, origin.col);
             switchTurns();
         } catch(const InvalidMoveException& e) {
-            std::cout << e.what() << std::endl;
+            std::cerr << "ERROR: "<< e.what() << std::endl;
         }
 
     }
 
     bool Logic::moveInBounds(const Move& move) {
-        return (0 <= move.row && move.row < BOARD_SIZE) && (0 <= move.col && move.col < BOARD_SIZE);
+        return numberInBounds(move.row) && numberInBounds(move.col);
+    }
+
+    bool Logic::numberInBounds(int n) {
+        return 0 <= n && n < BOARD_SIZE;
     }
 
     bool Logic::moveReachable(const Move& origin, const Move& destination) {
